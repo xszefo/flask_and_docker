@@ -1,5 +1,6 @@
-from flask import Flask
+from flask import Flask, request
 from flask_restful import Resource, Api
+import random
 import mysql.connector
 from creds import user, password, db_name, table_name
 
@@ -10,7 +11,7 @@ def execute_mysql(command):
     try:
         cnx = mysql.connector.connect(user=user, 
                                       password=password,
-                                      host='some-mysql',
+                                      host='first-app_mysql',
                                       database=db_name)
         cursor = cnx.cursor()
         cursor.execute(command)
@@ -25,7 +26,8 @@ def execute_mysql(command):
 
 class HelloWorld(Resource):
     def get(self):
-        return {'hello': 'world'}
+        keys = ['hello', 'hi', 'whats up']
+        return {random.choice(keys) : 'world'}
 
 class GetUsers(Resource):
     def get(self):
